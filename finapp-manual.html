@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FinApp — Manual de uso</title>
+<style>
+  :root{--accent:#FF5C28;--blue:#2D3BE0;--green:#00C896;--text:#1A1A2E;--text2:#6B6880;--bg:#F5F2ED;--surf:#fff;--border:#E2DED8}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);max-width:720px;margin:0 auto;padding:24px 20px 60px}
+  /* HEADER */
+  .cover{background:linear-gradient(135deg,var(--accent),var(--blue));border-radius:20px;padding:36px 32px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden}
+  .cover::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.06)}
+  .cover-logo{font-size:36px;font-weight:900;letter-spacing:-2px;margin-bottom:6px}
+  .cover-logo span{opacity:.5}
+  .cover-title{font-size:22px;font-weight:700;margin-bottom:6px}
+  .cover-sub{font-size:14px;opacity:.75;line-height:1.5}
+  .cover-version{position:absolute;top:20px;right:24px;font-size:11px;opacity:.6;background:rgba(255,255,255,.15);padding:3px 10px;border-radius:20px}
+  .cover-author{margin-top:20px;font-size:12px;opacity:.6;letter-spacing:.5px}
+  /* TOC */
+  .toc{background:var(--surf);border-radius:14px;padding:20px 24px;margin-bottom:28px;border:1px solid var(--border)}
+  .toc-title{font-size:13px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+  .toc a{display:flex;align-items:center;gap:10px;padding:7px 0;color:var(--text);text-decoration:none;font-size:14px;border-bottom:1px solid var(--border)}
+  .toc a:last-child{border-bottom:none}
+  .toc a:hover{color:var(--accent)}
+  .toc-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  /* SECTIONS */
+  .section{margin-bottom:36px}
+  .section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:10px;border-bottom:2px solid var(--accent)}
+  .section-icon{font-size:28px}
+  .section-title{font-size:20px;font-weight:800;color:var(--text)}
+  .section-num{font-size:12px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+  /* STEPS */
+  .steps{display:flex;flex-direction:column;gap:12px}
+  .step{display:flex;gap:14px;background:var(--surf);border-radius:12px;padding:14px 16px;border:1px solid var(--border)}
+  .step-num{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+  .step-content{}
+  .step-title{font-weight:700;font-size:14px;margin-bottom:4px}
+  .step-desc{font-size:13px;color:var(--text2);line-height:1.55}
+  /* FEATURES */
+  .features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+  @media(max-width:500px){.features{grid-template-columns:1fr}}
+  .feat{background:var(--surf);border-radius:12px;padding:14px;border:1px solid var(--border)}
+  .feat-ico{font-size:24px;margin-bottom:8px}
+  .feat-title{font-weight:700;font-size:13px;margin-bottom:4px}
+  .feat-desc{font-size:12px;color:var(--text2);line-height:1.5}
+  /* TIP */
+  .tip{background:rgba(45,59,224,.07);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:var(--text2);line-height:1.55}
+  .tip strong{color:var(--blue)}
+  .warn{background:rgba(255,92,40,.07);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin:14px 0;font-size:13px;color:var(--text2);line-height:1.55}
+  .warn strong{color:var(--accent)}
+  /* NAV TABS */
+  .nav-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .nav-tab{display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--surf);border:1.5px solid var(--border);border-radius:30px;font-size:13px;font-weight:600}
+  .nav-tab.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  /* EXAMPLE */
+  .example{background:#1A1A2E;color:#fff;border-radius:10px;padding:14px 16px;font-size:13px;line-height:1.7;margin:12px 0;font-family:monospace}
+  .example .cmd{color:#FF5C28}
+  .example .res{color:#00C896}
+  /* FOOTER */
+  .footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:40px;font-size:12px;color:var(--text2)}
+  .footer strong{color:var(--text)}
+  h3{font-size:15px;font-weight:700;margin:18px 0 8px}
+  p{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:10px}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="cover-version">v2.0</div>
+  <div class="cover-logo">Fin<span>App</span></div>
+  <div class="cover-title">Manual de uso básico</div>
+  <div class="cover-sub">Todo lo que necesitás saber para controlar tus finanzas personales desde el celular</div>
+  <div class="cover-author">Desarrollado por IJ.Society.exe</div>
+</div>
+
+<!-- ÍNDICE -->
+<div class="toc">
+  <div class="toc-title">Contenido</div>
+  <a href="#inicio"><div class="toc-num">1</div>Primeros pasos — Configuración inicial</a>
+  <a href="#home"><div class="toc-num">2</div>Pantalla principal — Cargar un gasto</a>
+  <a href="#gastos"><div class="toc-num">3</div>Sección Gastos — Historial y filtros</a>
+  <a href="#ingresos"><div class="toc-num">4</div>Sección Ingresos</a>
+  <a href="#fijos"><div class="toc-num">5</div>Gastos fijos y suscripciones</a>
+  <a href="#categorias"><div class="toc-num">6</div>Categorías y presupuestos</a>
+  <a href="#analisis"><div class="toc-num">7</div>Análisis y metas</a>
+  <a href="#perfil"><div class="toc-num">8</div>Perfil — PIN, temas y cuentas</a>
+  <a href="#sheets"><div class="toc-num">9</div>Sincronización con Google Sheets</a>
+  <a href="#tips"><div class="toc-num">10</div>Tips y trucos</a>
+</div>
+
+<!-- 1. PRIMEROS PASOS -->
+<div class="section" id="inicio">
+  <div class="section-header">
+    <div class="section-icon">🚀</div>
+    <div>
+      <div class="section-num">Sección 1</div>
+      <div class="section-title">Primeros pasos</div>
+    </div>
+  </div>
+  <p>La primera vez que abrís FinApp, un asistente te guía en 4 pasos rápidos:</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Tu nombre o alias</div><div class="step-desc">Ingresá cómo querés que la app te llame. Puede ser tu nombre real, un apodo, lo que prefieras. Opcionalmente agregá tu email para identificar tu cuenta en Google Sheets.</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Saldo inicial</div><div class="step-desc">Ingresá cuánto dinero tenés disponible hoy en tu cuenta principal. Este es el punto de partida para calcular tu balance. Si no sabés el monto exacto, podés omitirlo y ajustarlo después desde Perfil.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Presupuesto y alerta</div><div class="step-desc">Definí cuánto querés gastar este mes (presupuesto) y a partir de qué monto disponible querés que la app te avise que el saldo está bajo. Cuando el balance baja de ese límite, la card principal se pone naranja y luego roja.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Google Sheets (opcional)</div><div class="step-desc">Conectá la app con una planilla de Google para guardar un historial permanente. Podés omitir este paso y configurarlo después desde Perfil → Google Sheets.</div></div></div>
+  </div>
+  <div class="tip"><strong>💡 Tip:</strong> Para instalar FinApp como app en tu celular y que el micrófono funcione sin pedir permiso cada vez, en Safari tocá <strong>Compartir → Agregar a pantalla de inicio</strong>.</div>
+</div>
+
+<!-- 2. PANTALLA PRINCIPAL -->
+<div class="section" id="home">
+  <div class="section-header">
+    <div class="section-icon">🏠</div>
+    <div>
+      <div class="section-num">Sección 2</div>
+      <div class="section-title">Pantalla principal</div>
+    </div>
+  </div>
+
+  <h3>La tarjeta de balance</h3>
+  <p>La card superior muestra tu <strong>saldo disponible</strong> (saldo inicial + ingresos del mes − gastos del mes). También muestra tus gastos fijos totales y tu presupuesto mensual configurado.</p>
+  <p>Dentro de la card aparecen dos píldoras informativas: cuántos días faltan para cobrar y una proyección de gasto basada en tu ritmo actual.</p>
+
+  <h3>🎙️ Cargar un gasto por voz</h3>
+  <p>El botón naranja grande es el corazón de la app. Tocalo, hablá en voz alta describiendo tu gasto, y tocá de nuevo para detener. La IA detecta montos y descripciones automáticamente.</p>
+  <div class="example">
+    <span class="cmd">Decí:</span> "gasté cuarenta mil en el supermercado y dos mil en nafta"<br>
+    <span class="res">→ Detecta:</span> Supermercado $40.000 (Comida) · Nafta $2.000 (Transporte)
+  </div>
+  <div class="example">
+    <span class="cmd">Decí:</span> "pagué doce mil en el médico"<br>
+    <span class="res">→ Detecta:</span> Médico $12.000 (Salud)
+  </div>
+  <p>Después de grabar aparece un modal con los gastos detectados. Podés <strong>editar el monto</strong>, cambiar la categoría o eliminar alguno antes de guardar.</p>
+
+  <h3>✏️ Cargar un gasto manual</h3>
+  <p>Tocá <strong>"Cargar manualmente"</strong> debajo del micrófono. Completá la descripción, el monto, elegí la categoría, la fecha y una nota opcional. Útil para gastos de días anteriores o cuando no tenés micrófono disponible.</p>
+
+  <h3>⚡ Acceso rápido</h3>
+  <p>Una vez que tenés varios gastos registrados, aparecen chips de acceso rápido con los 5 comercios donde más gastás. Un toque registra el gasto con el monto promedio habitual, sin abrir ningún formulario.</p>
+</div>
+
+<!-- 3. GASTOS -->
+<div class="section" id="gastos">
+  <div class="section-header">
+    <div class="section-icon">💳</div>
+    <div>
+      <div class="section-num">Sección 3</div>
+      <div class="section-title">Sección Gastos</div>
+    </div>
+  </div>
+  <p>Desde el menú inferior, tocá <strong>Gastos</strong>. Vas a ver:</p>
+  <div class="features">
+    <div class="feat"><div class="feat-ico">📅</div><div class="feat-title">Chips de mes</div><div class="feat-desc">Navegá entre meses anteriores tocando los chips en la parte superior.</div></div>
+    <div class="feat"><div class="feat-ico">📊</div><div class="feat-title">Resumen azul</div><div class="feat-desc">Ingresos · Gastos · Disponible del mes seleccionado en una sola card.</div></div>
+    <div class="feat"><div class="feat-ico">🔍</div><div class="feat-title">Búsqueda</div><div class="feat-desc">Filtrá por nombre de gasto o por categoría usando los chips de colores.</div></div>
+    <div class="feat"><div class="feat-ico">📅 A debitar</div><div class="feat-title">Solapa "A debitar"</div><div class="feat-desc">Muestra tus gastos fijos programados pendientes, ordenados por fecha de débito. Podés marcarlos como pagados directo desde ahí.</div></div>
+  </div>
+  <p>Cada gasto tiene botones de <strong>✏️ Editar</strong> y <strong>🗑️ Eliminar</strong> para correcciones rápidas.</p>
+</div>
+
+<!-- 4. INGRESOS -->
+<div class="section" id="ingresos">
+  <div class="section-header">
+    <div class="section-icon">💰</div>
+    <div>
+      <div class="section-num">Sección 4</div>
+      <div class="section-title">Sección Ingresos</div>
+    </div>
+  </div>
+  <p>Registrá todos tus ingresos para que el balance sea preciso. Hay tres tipos de botones:</p>
+  <div class="features">
+    <div class="feat"><div class="feat-ico">💼</div><div class="feat-title">Registrar ingreso</div><div class="feat-desc">Sueldo, trabajo en relación de dependencia, freelance, etc.</div></div>
+    <div class="feat"><div class="feat-ico">📈</div><div class="feat-title">Registrar inversión</div><div class="feat-desc">Rendimientos, plazo fijo, criptos, dividendos.</div></div>
+    <div class="feat"><div class="feat-ico">🏦</div><div class="feat-title">Registrar ahorro</div><div class="feat-desc">Retiro de ahorros, recupero de préstamos, reintegros.</div></div>
+  </div>
+  <p>Cada ingreso puede registrarse en distintas monedas: <strong>ARS, USD, EUR, BRL, CLP, UYU</strong>. Los ingresos en moneda extranjera aparecen con un badge de la moneda.</p>
+  <div class="tip"><strong>💡 Tip:</strong> Registrá tu sueldo el día que cobrás para que el disponible se actualice al instante.</div>
+</div>
+
+<!-- 5. GASTOS FIJOS -->
+<div class="section" id="fijos">
+  <div class="section-header">
+    <div class="section-icon">📋</div>
+    <div>
+      <div class="section-num">Sección 5</div>
+      <div class="section-title">Gastos fijos y suscripciones</div>
+    </div>
+  </div>
+
+  <h3>Gastos fijos recurrentes</h3>
+  <p>Son los gastos que se repiten todos los meses: alquiler, luz, internet, etc. Se configuran una sola vez y aparecen en la solapa "A debitar" en la sección Gastos.</p>
+  <p>Para cada gasto fijo podés configurar:</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">📌</div><div class="step-content"><div class="step-title">Forma de pago</div><div class="step-desc">Manual, Débito CBU, Tarjeta de crédito, Tarjeta de débito, o descuento del sueldo. Si elegís tarjeta, podés agregar el banco/tarjeta específica.</div></div></div>
+    <div class="step"><div class="step-num">📅</div><div class="step-content"><div class="step-title">Día del mes que se debita</div><div class="step-desc">Al configurarlo, la app calcula cuántos días faltan y muestra una alerta roja cuando quedan 5 días o menos.</div></div></div>
+    <div class="step"><div class="step-num">✅</div><div class="step-content"><div class="step-title">Marcar como pagado</div><div class="step-desc">Tocá el círculo de estado (amarillo = pendiente, verde = pagado) o el botón "Ya pagué" en la solapa "A debitar".</div></div></div>
+  </div>
+
+  <h3>📱 Suscripciones</h3>
+  <p>En la misma sección, más abajo, encontrás un grid con los servicios más populares pre-cargados con sus precios actuales en ARS: Netflix, Disney+, Spotify, Max, Amazon Prime, YouTube, Apple TV+ y Gym.</p>
+  <p>Al tocar una suscripción podés:</p>
+  <ul style="padding-left:18px;font-size:14px;color:var(--text2);line-height:1.8">
+    <li>Ver y elegir el <strong>plan específico</strong> (ej: Netflix Básico, Estándar o Premium)</li>
+    <li>Editar el monto si cambió</li>
+    <li>Activar el toggle <strong>"Agregar como gasto fijo recurrente"</strong> para que aparezca cada mes automáticamente</li>
+    <li>Registrarlo como gasto del mes con un toque</li>
+  </ul>
+</div>
+
+<!-- 6. CATEGORÍAS -->
+<div class="section" id="categorias">
+  <div class="section-header">
+    <div class="section-icon">🏷️</div>
+    <div>
+      <div class="section-num">Sección 6</div>
+      <div class="section-title">Categorías y presupuestos</div>
+    </div>
+  </div>
+  <p>La app viene con 8 categorías predefinidas: Comida, Transporte, Salud, Mascotas, Ocio, Deporte, Ropa y Otros. Podés crear las tuyas tocando <strong>"Nueva categoría"</strong>.</p>
+  <p>Para cada categoría podés configurar:</p>
+  <div class="features">
+    <div class="feat"><div class="feat-ico">🎨</div><div class="feat-title">Emoji y color</div><div class="feat-desc">Para reconocerla fácilmente en el listado de gastos.</div></div>
+    <div class="feat"><div class="feat-ico">💵</div><div class="feat-title">Presupuesto mensual</div><div class="feat-desc">Límite de gasto para esa categoría. Aparece una barra de progreso que se pone amarilla al 70% y roja al 90%.</div></div>
+    <div class="feat"><div class="feat-ico">🔑</div><div class="feat-title">Palabras clave</div><div class="feat-desc">Palabras que activan la auto-categorización por voz. Ej: si ponés "verduleria", cuando decís ese gasto por voz se categoriza automáticamente en Comida.</div></div>
+    <div class="feat"><div class="feat-ico">📋</div><div class="feat-title">Acceso a Gastos Fijos</div><div class="feat-desc">Botón de acceso rápido a tus gastos fijos desde la pantalla de Categorías.</div></div>
+  </div>
+  <div class="warn"><strong>⚠️ Nota:</strong> Si eliminás una categoría, todos sus gastos se mueven automáticamente a "Otros".</div>
+</div>
+
+<!-- 7. ANÁLISIS -->
+<div class="section" id="analisis">
+  <div class="section-header">
+    <div class="section-icon">📊</div>
+    <div>
+      <div class="section-num">Sección 7</div>
+      <div class="section-title">Análisis y Metas</div>
+    </div>
+  </div>
+
+  <h3>Sección Análisis</h3>
+  <div class="features">
+    <div class="feat"><div class="feat-ico">📈</div><div class="feat-title">Evolución del saldo</div><div class="feat-desc">Gráfico de línea que muestra cómo cambió tu saldo día a día durante el mes. Verde = positivo, rojo = negativo.</div></div>
+    <div class="feat"><div class="feat-ico">📊</div><div class="feat-title">Comparativa mes a mes</div><div class="feat-desc">Barras que comparan cada categoría contra el mes anterior. Te muestra en qué gastaste más o menos.</div></div>
+    <div class="feat"><div class="feat-ico">🤖</div><div class="feat-title">Recomendaciones IA</div><div class="feat-desc">Sugerencias personalizadas basadas en tus patrones de gasto, presupuestos y objetivos.</div></div>
+    <div class="feat"><div class="feat-ico">📄</div><div class="feat-title">Exportar PDF</div><div class="feat-desc">Genera un resumen mensual completo en PDF con todos los gastos y métricas.</div></div>
+  </div>
+
+  <h3>🎯 Metas de ahorro</h3>
+  <p>Accedé desde el card de Metas dentro de Análisis. Podés crear objetivos de ahorro con:</p>
+  <ul style="padding-left:18px;font-size:14px;color:var(--text2);line-height:1.8">
+    <li>Nombre y emoji descriptivo (Vacaciones 🏖️, Auto 🚗, etc.)</li>
+    <li>Monto objetivo y monto ya ahorrado</li>
+    <li>Fecha límite para cumplirla</li>
+    <li>Botón <strong>+💰</strong> para ir sumando ahorros mes a mes</li>
+  </ul>
+
+  <h3>🏆 Logros</h3>
+  <p>FinApp tiene 10 logros desbloqueables. Aparecen automáticamente cuando cumplís condiciones como: registrar 10 gastos, terminar el mes con saldo positivo, ahorrar más del 20% de tus ingresos, completar una meta, y más. Los lográs desde Perfil → Logros.</p>
+</div>
+
+<!-- 8. PERFIL -->
+<div class="section" id="perfil">
+  <div class="section-header">
+    <div class="section-icon">⚙️</div>
+    <div>
+      <div class="section-num">Sección 8</div>
+      <div class="section-title">Perfil y configuración</div>
+    </div>
+  </div>
+  <p>Tocá tu avatar (arriba a la derecha) para abrir el perfil. Desde ahí podés configurar todo:</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">👤</div><div class="step-content"><div class="step-title">Datos personales</div><div class="step-desc">Nombre, email, saldo inicial, presupuesto mensual, alerta de saldo bajo y día de cobro del mes.</div></div></div>
+    <div class="step"><div class="step-num">🎨</div><div class="step-content"><div class="step-title">Apariencia</div><div class="step-desc"><strong>Color de la app:</strong> 5 opciones (naranja, azul, verde, violeta, rosa). <strong>Modo oscuro.</strong> <strong>Ocultar montos:</strong> activa el modo privacidad que aplica blur a todos los saldos — tocá la card de balance para revelarlos.</div></div></div>
+    <div class="step"><div class="step-num">🔐</div><div class="step-content"><div class="step-title">PIN de acceso</div><div class="step-desc">Configurá un PIN de 4 dígitos. Cada vez que abrís la app aparece la pantalla de PIN antes de mostrar tus datos. Podés cambiarlo o eliminarlo cuando quieras.</div></div></div>
+    <div class="step"><div class="step-num">💼</div><div class="step-content"><div class="step-title">Cuentas / Bolsillos</div><div class="step-desc">Creá múltiples bolsillos independientes: Efectivo, Dólares, Ahorro, etc. Cada uno tiene su propia moneda y saldo. En la pantalla principal aparecen chips para cambiar de cuenta activa.</div></div></div>
+    <div class="step"><div class="step-num">📊</div><div class="step-content"><div class="step-title">Google Sheets</div><div class="step-desc">Sincronizá todos tus movimientos con una planilla de Google para no perder el historial. Ver sección 9 para la configuración completa.</div></div></div>
+  </div>
+</div>
+
+<!-- 9. GOOGLE SHEETS -->
+<div class="section" id="sheets">
+  <div class="section-header">
+    <div class="section-icon">📗</div>
+    <div>
+      <div class="section-num">Sección 9</div>
+      <div class="section-title">Google Sheets — Sincronización</div>
+    </div>
+  </div>
+  <p>Para sincronizar FinApp con Google Sheets necesitás configurar un Apps Script. Seguí estos pasos una sola vez:</p>
+  <div class="steps">
+    <div class="step"><div class="step-num">1</div><div class="step-content"><div class="step-title">Crear la planilla</div><div class="step-desc">Abrí Google Sheets y creá una planilla nueva. Dale un nombre descriptivo como "FinApp Gastos".</div></div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-content"><div class="step-title">Abrir Apps Script</div><div class="step-desc">Menú <strong>Extensiones → Apps Script</strong>. Se abre el editor de código.</div></div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-content"><div class="step-title">Pegar el código</div><div class="step-desc">En FinApp → Perfil → Configurar Sheets → tocá <strong>"Copiar código Apps Script"</strong>. Pegalo en el editor reemplazando todo el código existente. Guardá con Ctrl+S.</div></div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-content"><div class="step-title">Implementar como Web App</div><div class="step-desc">Click en <strong>Implementar → Nueva implementación</strong>. Tipo: <em>Aplicación web</em>. Ejecutar como: <em>Yo</em>. Acceso: <em>Cualquiera</em>. Click en <strong>Implementar</strong> y autorizá. Copiá la URL que aparece.</div></div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-content"><div class="step-title">Conectar en FinApp</div><div class="step-desc">Pegá esa URL en el campo de FinApp → Perfil → Configurar Sheets. Tocá <strong>"Guardar y conectar"</strong>. Aparece el ícono 🔄 verde en la barra superior para sincronizar.</div></div></div>
+  </div>
+  <div class="tip"><strong>💡 Una vez conectado:</strong> Cada gasto, ingreso o suscripción que registrés se envía automáticamente a las hojas <em>Gastos</em>, <em>Ingresos</em> y <em>Fijos</em> de tu planilla. También podés sincronizar todo el mes tocando el ícono 🔄 o desde Perfil → Sheets → Sincronizar datos ahora.</div>
+</div>
+
+<!-- 10. TIPS -->
+<div class="section" id="tips">
+  <div class="section-header">
+    <div class="section-icon">💡</div>
+    <div>
+      <div class="section-num">Sección 10</div>
+      <div class="section-title">Tips y trucos</div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feat"><div class="feat-ico">🎙️</div><div class="feat-title">Cargá varios gastos de una</div><div class="feat-desc">Con el micrófono podés decir varios gastos seguidos: "gasté 15.000 en el super y 3.000 en la farmacia y 800 en el kiosco". La IA los detecta todos.</div></div>
+    <div class="feat"><div class="feat-ico">💵</div><div class="feat-title">Monto en palabras</div><div class="feat-desc">Podés decir "gasté cuarenta mil" o "cuarenta y cinco mil pesos en ropa" y la app lo convierte automáticamente.</div></div>
+    <div class="feat"><div class="feat-ico">🔄</div><div class="feat-title">Reset completo</div><div class="feat-desc">Para empezar de cero, en Safari pegá en la barra de URL: <code>javascript:localStorage.removeItem('finapp_v7');location.reload();</code></div></div>
+    <div class="feat"><div class="feat-ico">👁️</div><div class="feat-title">Revelar saldos ocultos</div><div class="feat-desc">Con el modo oculto activado, tocá la tarjeta de balance para revelar temporalmente todos los montos.</div></div>
+    <div class="feat"><div class="feat-ico">📅</div><div class="feat-title">Configurá el día de cobro</div><div class="feat-desc">En Perfil → Día de cobro. La app te mostrará un countdown y proyectará cuánto vas a gastar hasta esa fecha.</div></div>
+    <div class="feat"><div class="feat-ico">🏆</div><div class="feat-title">Desbloquear logros</div><div class="feat-desc">Registrá gastos regularmente, configurá presupuestos, creá metas y cerrá el mes positivo para ir desbloqueando los 10 logros disponibles.</div></div>
+    <div class="feat"><div class="feat-ico">📱</div><div class="feat-title">Instalar en el celular</div><div class="feat-desc">En Safari: Compartir → Agregar a pantalla de inicio. En Chrome/Android: menú → Instalar app. Funciona como app nativa sin conexión.</div></div>
+    <div class="feat"><div class="feat-ico">🎨</div><div class="feat-title">Cambiar el color</div><div class="feat-desc">Perfil → Apariencia → elegí entre naranja, azul, verde, violeta o rosa. El cambio aplica en toda la app al instante.</div></div>
+  </div>
+
+  <h3>Navegación por secciones</h3>
+  <div class="nav-tabs">
+    <div class="nav-tab active">🏠 Inicio</div>
+    <div class="nav-tab">💳 Gastos</div>
+    <div class="nav-tab">💰 Ingresos</div>
+    <div class="nav-tab">🏷️ Categorías</div>
+    <div class="nav-tab">📊 Análisis</div>
+  </div>
+  <p>La barra de navegación inferior siempre está visible. Las secciones de Metas, Logros y Gastos Fijos se acceden desde dentro de otras secciones.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>FinApp v2.0</strong><br>
+  Desarrollado por <strong>IJ.Society.exe</strong><br><br>
+  <span>Tus datos se guardan localmente en tu dispositivo.<br>
+  Configurá Google Sheets para tener backup permanente.</span>
+</div>
+
+</body>
+</html>
